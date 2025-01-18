@@ -9,7 +9,7 @@ from .models import ItemImage, Item, Location, User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, ItemForm, SignInForm
-from .text_filter import search_items, extract_object_keywords
+from .text_filter import search_items
 from django.http import HttpResponse, StreamingHttpResponse, JsonResponse
 
 # Create your views here.
@@ -149,12 +149,12 @@ def download_db_and_media(request):
 
 def item_details(request, item_id):
     item = get_object_or_404(Item, id=item_id)
-    keywords = extract_object_keywords(item.description)
+    # keywords = extract_object_keywords(item.description)
     # if item.status == 'lost':
     #     item.relatives.set(search_items(item))
     #     item.save()
 
-    return render(request, 'item-details.html', {'item': item, 'obj': keywords})
+    return render(request, 'item-details.html', {'item': item})
 
 
 def cse_view(request):

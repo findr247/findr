@@ -1,4 +1,3 @@
-import cv2
 import numpy as np
 from django.core.cache import cache
 from django.shortcuts import render, redirect, get_object_or_404
@@ -78,30 +77,30 @@ def claim_item(request, item_id):
     return render(request, 'claim.html', {'item': item})
 
 
-def upload(request):
-    if request.method == 'POST' and request.FILES['image_file']:
-        # Get the uploaded image file
-        image_file = request.FILES['image_file']
-
-        # Read the image file into memory using BytesIO
-        img_data = image_file.read()
-        img_bytes_io = BytesIO(img_data)
-
-        # Use OpenCV's imdecode to read the image from byte stream
-        img_array = np.asarray(bytearray(img_bytes_io.read()), dtype=np.uint8)
-        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)  # Decode as color image
-        img = cv2.resize(img, (224, 224))
-
-        img = np.array(img)
-
-        filter_model = cache.get('filter_model')
-        data = filter_model.nearest_neighbors(img)
-        print(data)
-
-        # Return the shape of the NumPy array (image dimensions)
-        return render(request, 'filter.html', {'data': data})
-
-    return render(request, 'inde.html')
+# def upload(request):
+#     if request.method == 'POST' and request.FILES['image_file']:
+#         # Get the uploaded image file
+#         image_file = request.FILES['image_file']
+#
+#         # Read the image file into memory using BytesIO
+#         img_data = image_file.read()
+#         img_bytes_io = BytesIO(img_data)
+#
+#         # Use OpenCV's imdecode to read the image from byte stream
+#         img_array = np.asarray(bytearray(img_bytes_io.read()), dtype=np.uint8)
+#         img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)  # Decode as color image
+#         img = cv2.resize(img, (224, 224))
+#
+#         img = np.array(img)
+#
+#         filter_model = cache.get('filter_model')
+#         data = filter_model.nearest_neighbors(img)
+#         print(data)
+#
+#         # Return the shape of the NumPy array (image dimensions)
+#         return render(request, 'filter.html', {'data': data})
+#
+#     return render(request, 'inde.html')
 
 
 def new(request):

@@ -9,4 +9,3 @@ whitenoise
 numpy
 supabase==2.7.4
 nltk
-sqlite3

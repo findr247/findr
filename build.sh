@@ -7,11 +7,10 @@ python3 get-pip.py
 # Install dependencies
 python3 -m pip install -r requirements.txt
 
-python3 -m spacy download en_core_web_sm
-
+#python3 -m spacy download en_core_web_sm
 
 # Run migrations
 #python manage.py migrate
 
 # Collect static files
-#python3 manage.py collectstatic --noinput
+python3 manage.py collectstatic --noinput

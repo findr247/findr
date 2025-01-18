@@ -4,10 +4,10 @@ from .models import Item
 from django.db.models import Q, Count
 import string
 from .models import Item
-import spacy
-
-# Load the model
-nlp = spacy.load("en_core_web_sm")
+# import spacy
+#
+# # Load the model
+# nlp = spacy.load("en_core_web_sm")
 
 stop_words = set("""a an and are as at be by for from has he in is it its of on that the to was were will with about 
 above after again against all am any are because before below between both but by cannot could did do does doing down 

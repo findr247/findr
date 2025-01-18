@@ -1,0 +1,131 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container">
+        <h1>Found Item Details</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Item Details</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Service Details Section -->
+    <!-- Service Details Section -->
+    <section id="service-details" class="service-details section">
+
+      <div class="container">
+
+        <div class="row gy-5">
+
+          <!-- User Data Section -->
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-box">
+              <h4>Item Details</h4>
+              <div class="services-list">
+                <p><i class="bi bi-arrow-right-circle"></i> <strong>Description:</strong> {{ obj|join:", " }}</p>
+                <p><i class="bi bi-arrow-right-circle"></i> <strong>Found Location:</strong> {{item.location}}</p>
+                <p><i class="bi bi-arrow-right-circle"></i> <strong>Date Found:</strong>  {{ item.date_reported|date:"F d, Y" }}.</p>
+              </div>
+            </div><!-- End Item Details -->
+
+            <div class="service-box">
+              <h4>Finder's Contact Information</h4>
+              <div class="services-list">
+                <p><i class="bi bi-person-circle"></i> <strong>Name:</strong> {{item.reported_by.first_name}} {{item.reported_by.last_name}}</p>
+                <p><i class="bi bi-envelope"></i> <strong>Email:</strong> <a
+                    href="mailto:johndoe@example.com">{{item.reported_by.email}}</a></p>
+                <p><i class="bi bi-telephone"></i> <strong>Phone:</strong> {{item.reported_by.profile.phone_number}}</p>
+              </div>
+            </div><!-- End Contact Info -->
+          </div>
+
+          <!-- Main Content Section -->
+          <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
+
+            {% if item.image.exists%}
+              <img
+              src="{{item.image.all.0.image.url}}"
+              alt="Black Leather Wallet" class="img-fluid services-img" width="100%">
+            {% else %}
+            <img
+              src="https://images.unsplash.com/photo-1676276550341-00e94a953058?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Black Leather Wallet" class="img-fluid services-img">
+            {% endif %}
+
+            <!-- Additional Images -->
+            <div class="row mt-4">
+              {% for image in item.image.all %}
+              <div class="col-6 col-md-3">
+                <img
+                  src="{{image.image.url}}"
+                  alt="Image 1" class="img-fluid mb-3">
+              </div>
+              {% endfor %}
+            </div>
+
+            <h3>{{item.name}}</h3>
+            <p>
+              {{item.description}}
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> <span>Provide detailed proof of ownership.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Confirm your identity with the finder.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Arrange safe and secure return.</span></li>
+            </ul>
+            <div class="text-center mt-4">
+              <a href="{% url 'claim'  item.id %}" class="btn btn-success me-2 px-5" style="background-color: #7404FA;"  {% if item.reported_by == request.user %}disabled{%endif%}>Claim Item</a>
+              <a href="{% url 'report_id' item.id %}" class="btn btn-secondary px-5 ">Edit details</a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Related Items Section -->
+        <div class="related-items mt-5">
+          {% if item.status == 'found' %}
+            <p class="text-center mb-4">
+              Thank you for reporting this item we will notify you once the owner is ready to claim it.
+            </p>
+          {% else %}
+            <h4 class="text-center mb-4">Related Items</h4>
+            {% if item.relatives.exists %}
+              <div class="row">
+                {% for r in item.relatives.all %}
+                  <div class="col-md-3">
+                  <a href="{% url 'item_details' r.id %}" class="card h-100">
+                    <img src="{{r.image.all.0.image.url}}" class="card-img-top" alt="Related Item 1" style="aspect-ratio: 1;">
+                    <div class="card-body">
+                      <h5 class="card-title">{{r.name}}</h5>
+                      <p class="card-text">{{r.description}} on {{r.date_reported|date:"F d, Y"}}.</p>
+                    </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+              {%else%}
+                  <p>Sorry! No item that marches the description you provided have been reported, please check back later
+                    we will notify you when we get it or anything closer to it. thank you</p>
+            {%endif%}
+          {% endif %}
+        </div>
+
+      </div>
+
+    </section><!-- /Service Details Section -->
+<script !src="">
+  const eventSource = new EventSource('/events/');
+  eventSource.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log(data)
+    if (data.event === 'task_complete') {
+        console.log(`Task ${data.payload.task_id} completed: ${data.payload.message}`);
+        alert(`Task Completed: ${data.payload.message}`);
+    }
+  };
+</script>
+{% endblock %}

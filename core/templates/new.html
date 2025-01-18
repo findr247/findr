@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost and Found Item Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Lost and Found Item Submission</h2>
+<form action="" method="post" enctype="multipart/form-data">
+    <!-- Name -->
+    {% csrf_token %}
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Your full name" required>
+
+    <!-- Description -->
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" placeholder="Provide a brief description of the item" rows="4" required></textarea>
+
+    <!-- Category -->
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+        <option value="">--Select a Category--</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Accessories">Accessories</option>
+        <option value="Documents">Documents</option>
+        <option value="Books">Books</option>
+        <option value="Sports Equipment">Sports Equipment</option>
+        <option value="Jewelry">Jewelry</option>
+        <option value="Toys">Toys</option>
+        <option value="Tools">Tools</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <!-- Location -->
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" placeholder="Where was the item lost/found?" required>
+
+    <!-- Status -->
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+        <option value="">--Select Status--</option>
+        <option value="Lost">Lost</option>
+        <option value="Found">Found</option>
+    </select>
+
+    <!-- Date Reported -->
+    <label for="date_reported">Date Reported:</label>
+    <input type="date" id="date_reported" name="date_reported" required>
+
+    <!-- Reported By -->
+    <label for="reported_by">Reported By:</label>
+    <input type="text" id="reported_by" name="reported_by" placeholder="Who is reporting this?" required>
+
+    <!-- Claimed By -->
+    <label for="claimed_by">Claimed By:</label>
+    <input type="text" id="claimed_by" name="claimed_by" placeholder="Who claimed this? Leave blank if unclaimed.">
+
+    <!-- Images -->
+    <label for="images">Upload Images:</label>
+    <input type="file" id="images" name="images" accept="image/*" multiple>
+
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

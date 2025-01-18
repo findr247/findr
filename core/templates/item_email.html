@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        h2 {
+            color: #555;
+        }
+        .item-list {
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .item-list li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .item-list li span {
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h2>Items Not in Collection</h2>
+        <p>Here are the items in the results but not in the collection:</p>
+        <ul class="item-list">
+            {% for item in items %}
+            <li>
+                <span>Name:</span> {{ item.name }} <br>
+                <span>Match Count:</span> {{ item.match_count }}
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="footer">
+            Thank you for using our service!
+        </div>
+    </div>
+</body>
+</html>

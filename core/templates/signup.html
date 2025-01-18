@@ -1,0 +1,130 @@
+{% extends 'index.html' %}
+
+{% block content %}
+            <!-- Page Title -->
+        <div class="page-title light-background">
+            <div class="container">
+                <h1>Signup</h1>
+                <nav class="breadcrumbs">
+                    <ol>
+                        <li><a href="/">Home</a></li>
+                        <li class="current">Signup</li>
+                    </ol>
+                </nav>
+            </div>
+        </div><!-- End Page Title -->
+
+        <!-- Service Details Section -->
+        <section id="service-details" class="service-details section row-cols-lg-3">
+
+            <div class="container">
+
+
+                <form class="p-4 bg-light rounded" method="POST">
+                    {% csrf_token %}
+                    <h3 class="mb-4 text-center">Signup</h3>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger">{{form.username.errors}}</div>
+                        {% endif %}
+<!--                        <input type="text" class="form-control" id="username" name="username"-->
+<!--                            placeholder="Enter your username" required>-->
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger">{{form.email.errors}}</div>
+                        {% endif %}
+<!--                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"-->
+<!--                            required>-->
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label for="id_matric_no" class="form-label">Phone Number</label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <div class="text-danger">{{form.phone_number.errors}}</div>
+                        {% endif %}
+<!--                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"-->
+<!--                            required>-->
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label for="id_matric_no" class="form-label">matric Number</label>
+                        {{ form.matric_no }}
+                        {% if form.matric_no.errors %}
+                            <div class="text-danger">{{form.matric_no.errors}}</div>
+                        {% endif %}
+<!--                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"-->
+<!--                            required>-->
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Password</label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="text-danger">{{form.password.errors}}</div>
+                        {% endif %}
+<!--                        <input type="password" class="form-control" id="password" name="password"-->
+<!--                            placeholder="Create a password" required>-->
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label for="id_confirm_password" class="form-label">Confirm Password</label>
+                        {{form.confirm_password}}
+                        {% if form.confirm_password.errors %}
+                            <div class="text-danger">{{form.confirm_password.errors}}</div>
+                        {% endif %}
+<!--                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"-->
+<!--                            placeholder="Confirm your password" required>-->
+                    </div>
+                    <br>
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" style="background-color: #7404FA;">Sign
+                            Up</button>
+                    </div>
+
+                    <div class="text-center"> <br>
+                        <p>Already have an account? <a href="{% url 'signin' %}">Signin</a></p>
+                    </div>
+                </form>
+
+            </div>
+
+        </section><!-- /Service Details Section -->
+
+{% endblock %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>

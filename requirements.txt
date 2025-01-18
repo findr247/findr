@@ -3,7 +3,6 @@ django-background-tasks==1.2.8
 django-storages==1.14.4
 pillow==11.0.0
 psycopg2-binary==2.9.9
-opencv-python==4.10.0.84
 gunicorn
 whitenoise
 numpy

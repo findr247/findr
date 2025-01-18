@@ -10,8 +10,8 @@
       }
     },
     {
-      "src": "build.sh",
-      "use": "@vercel/static-build",
+      "src": "Dockerfile",
+      "use": "@vercel/docker",
       "config": {
         "distDir": "staticfiles"
       }

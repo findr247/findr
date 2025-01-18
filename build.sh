@@ -13,4 +13,4 @@ python3 -m spacy download en_core_web_sm
 #python manage.py migrate
 
 # Collect static files
-python3 manage.py collectstatic --noinput
+#python3 manage.py collectstatic --noinput

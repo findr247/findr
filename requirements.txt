@@ -7,4 +7,4 @@ gunicorn
 whitenoise
 numpy
 supabase==2.7.4
-spacy==3.8.3
+textblob

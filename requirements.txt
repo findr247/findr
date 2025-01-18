@@ -8,4 +8,4 @@ gunicorn
 whitenoise
 numpy
 supabase==2.7.4
-nltk==3.7
+spacy==3.8.3

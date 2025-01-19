@@ -7,4 +7,4 @@ gunicorn
 whitenoise
 numpy
 supabase==2.7.4
-request
+requests

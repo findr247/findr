@@ -24,6 +24,7 @@
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'assets/css/custom-columns.css' %}">
+  {% block style %}{%endblock%}
 </head>
 
 <body class="index-page">
@@ -482,9 +483,12 @@
   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
   <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
   <script src="{% static 'assets/vendor/choices/choices.min.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+
 
   <!-- Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
+  {% block scripts %}{%endblock%}
 
 </body>
 

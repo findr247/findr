@@ -1,5 +1,6 @@
 import numpy as np
 from django.core.cache import cache
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from io import BytesIO
 
@@ -9,7 +10,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, ItemForm, SignInForm
 from .text_filter import search_items, extract_object_keywords
-from django.http import HttpResponse, StreamingHttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 from django.conf import settings
@@ -56,6 +57,7 @@ def signin_view(request):
 @login_required
 def report_item(request, item_id=None):
     item = get_object_or_404(Item, id=item_id) if item_id else None
+    images = item.image.all() if item else []
 
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES, instance=item, user=request.user)
@@ -68,7 +70,8 @@ def report_item(request, item_id=None):
     else:
         form = ItemForm(instance=item, user=request.user)
 
-    return render(request, 'report.html',  {'form': form})
+
+    return render(request, 'report.html',  {'form': form, "images": images})
 
 
 @login_required
@@ -148,9 +151,17 @@ def download_db_and_media(request):
 
 def item_details(request, item_id):
     item = get_object_or_404(Item, id=item_id)
-    keywords = extract_object_keywords(item.description)
+    query = Item.objects.filter(location=item.location)
+    keywords = extract_object_keywords(item, query)
 
-    return render(request, 'item-details.html', {'item': item, 'obj': keywords['noun_phrases']})
+    filters = Q()
+    for keyword in keywords['objects'] + keywords['adjectives']:
+        filters |= Q(name__icontains=keyword) | Q(description__icontains=keyword) | Q(location__icontains=keyword)
+
+    res = Item.objects.filter(filters).distinct()
+    print(keywords['objects'] + keywords['adjectives'])
+    print(keywords)
+    return render(request, 'item-details.html', {'item': item, 'obj': keywords['noun_phrases'], 'relatives': res})
 
 
 def cse_view(request):

@@ -1,4 +1,20 @@
 {% extends 'index.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/vendor/dropzone/dropzone.min.css' %}" type="text/css" />
+<style>
+.dropzone .dz-preview {
+    min-height: auto;
+}
+</style>
+<script>
+    var images = []
+    {% for item in images %}
+    images.push({'name': '{{item.image.name}}', 'url': '{{item.image.url}}', 'size': {{item.image.size}} })
+    {%endfor%}
+    console.log(images)
+</script>
+{%endblock%}
 {% block content %}
     <!-- Page Title -->
     <div class="page-title light-background">
@@ -7,7 +23,7 @@
             <nav class="breadcrumbs">
                 <ol>
                     <li><a href="index.html">Home</a></li>
-                    <li class="current">Report</li>
+                    <li class="current">Report{{form.GET.location}}</li>
                 </ol>
             </nav>
         </div>
@@ -21,6 +37,9 @@
 
             <form class="p-4 bg-light rounded" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+<!--                <input type="file" style="display: none" name="images" multiple="multiple" id="hidden-file-input">-->
+<!--                <input type="hidden" id="to-remove" name="removed" value="[]">-->
+                {{form.removed}}
                 <h3 class="mb-4">Report Lost or Found Item</h3>
                 {{ form.non_field_errors }}
                 {{form.error}}
@@ -71,6 +90,37 @@
                     <label for="id_images" class="form-label">Upload Photos</label>
                     {{ form.images }}
                     {{ form.images.errors }}
+
+
+                    <div class="dropzone dropzone-multiple p-0" id="my-awesome-dropzone" data-dropzone="data-dropzone">
+                      <div class="fallback"><input name="images" type="file" multiple="multiple" /></div>
+                      <div class="dz-message m-0" data-dz-message="data-dz-message"> <img class="me-2" src="{% static 'assets/img/cloud-upload.svg' %}" width="25" alt="" />
+                          <span class="d-lg-inline">Drag your image here<br>or, </span>
+                          <span class="btn btn-link p-0 fs--1">Browse</span>
+                      </div>
+                      <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column" >
+                        <div class="d-flex media mb-3 pb-3 border-bottom btn-reveal-trigger ">
+                            <img class="dz-image" src="{% static 'assets/img/image-file-2.png' %}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
+                          <div class="flex-1 d-flex justify-content-between flex-grow-1">
+                            <div>
+                              <h6 data-dz-name="data-dz-name"></h6>
+                              <div class="d-flex align-items-center">
+                                <p class="mb-0 fs--1 text-400 lh-1" data-dz-size="data-dz-size"></p>
+                                <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
+                              </div><span class="fs--2 text-danger" data-dz-errormessage="data-dz-errormessage"></span>
+                            </div>
+                            <div class="dropdown font-sans-serif">
+                                <button id="profile-dropdown" class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-three-dots h4"></i></button>
+                                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
+                                  aria-labelledby="profile-dropdown">
+                                    <a class="dropdown-item preview-item" href="#!" data-dz-remove="data-dz-remove">
+                                        <span class="preview-item-content">Remove File</span></a>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <small class="form-text text-muted">You can upload multiple images to help identify the
                         item.</small>
                 </div>
@@ -110,3 +160,151 @@
 <!-- /Service Details Section -->
 {% endblock %}
 
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<script src="{% static 'assets/vendor/dropzone/dropzone.min.js' %}"></script>
+<script>
+    function dropzoneInit() {
+      var merge = window._.merge;
+      var Selector = {
+        DROPZONE: '[data-dropzone]',
+        DZ_ERROR_MESSAGE: '.dz-error-message',
+        DZ_PREVIEW: '.dz-preview',
+        DZ_PROGRESS: '.dz-preview .dz-preview-cover .dz-progress',
+        DZ_PREVIEW_COVER: '.dz-preview .dz-preview-cover'
+      };
+      var ClassName = {
+        DZ_FILE_PROCESSING: 'dz-file-processing',
+        DZ_FILE_COMPLETE: 'dz-file-complete',
+        DZ_COMPLETE: 'dz-complete',
+        DZ_PROCESSING: 'dz-processing'
+      };
+      var DATA_KEY = {
+        OPTIONS: 'options'
+      };
+      var Events = {
+        ADDED_FILE: 'addedfile',
+        REMOVED_FILE: 'removedfile',
+        COMPLETE: 'complete'
+      };
+      var dropzones = document.querySelectorAll(Selector.DROPZONE);
+      !!dropzones.length && dropzones.forEach(function (item) {
+        var userOptions = {}
+        userOptions = userOptions ? userOptions : {};
+        var data = userOptions.data ? userOptions.data : {};
+        var options = merge({
+          url: '/product/add',
+          addRemoveLinks: false,
+          acceptedFiles: 'image/*',
+          previewsContainer: item.querySelector(Selector.DZ_PREVIEW),
+          previewTemplate: item.querySelector(Selector.DZ_PREVIEW).innerHTML,
+          thumbnailWidth: null,
+          thumbnailHeight: null,
+          maxFilesize: 20,
+          maxFiles: 10,
+          autoProcessQueue: false,
+          uploadMultiple:true,
+          parallelUploads: 10,
+          filesizeBase: 1000,
+          init: function init() {
+            var hiddenFileInput = document.getElementById('hidden-file-input');
+            var thisDropzone = this;
+            if (data.length) {
+              data.forEach(function (v) {
+                var mockFile = {
+                  name: v.name,
+                  size: v.size
+                };
+                thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+                thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "".concat(v.url, "/").concat(v.name));
+              });
+            }
+            thisDropzone.on(Events.ADDED_FILE, function addedfile(file) {
+              if ('maxFiles' in userOptions) {
+                if (userOptions.maxFiles === 1 && item.querySelectorAll(Selector.DZ_PREVIEW_COVER).length > 1) {
+                  item.querySelector(Selector.DZ_PREVIEW_COVER).remove();
+                }
+                if (userOptions.maxFiles === 1 && this.files.length > 1) {
+                  this.removeFile(this.files[0]);
+                }
+              }
+
+            });
+            $('form').on('submit', function(e) {
+                $('.table tbody tr:last').remove();
+                var dataTransfer = new DataTransfer();
+                dropzone.getAcceptedFiles().forEach(function(file) {
+                  dataTransfer.items.add(file);
+                });
+                hiddenFileInput.files = dataTransfer.files;
+            });
+          },
+          error: function error(file, message) {
+            if (file.previewElement) {
+              file.previewElement.classList.add('dz-error');
+              if (typeof message !== 'string' && message.error) {
+                message = message.error;
+              }
+              var _iterator = _createForOfIteratorHelper(file.previewElement.querySelectorAll('[data-dz-errormessage]')),
+                _step;
+              try {
+                for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                  var node = _step.value;
+                  node.textContent = message;
+                }
+              } catch (err) {
+                _iterator.e(err);
+              } finally {
+                _iterator.f();
+              }
+            }
+          }
+        }, userOptions);
+        // eslint-disable-next-line
+        item.querySelector(Selector.DZ_PREVIEW).innerHTML = '';
+        console.log(item)
+        var dropzone = new window.Dropzone(item, options);
+        images.forEach(function(image){
+            var mockFile = { name: image.name, size: image.size };
+            dropzone.emit("addedfile", mockFile);
+            dropzone.emit("thumbnail", mockFile, image.url);
+            dropzone.files.push(mockFile);
+        })
+        var removedFiles = [];
+        dropzone.on(Events.ADDED_FILE, function (file) {
+          if (item.querySelector(Selector.DZ_PREVIEW_COVER)) {
+            item.querySelector(Selector.DZ_PREVIEW_COVER).classList.remove(ClassName.DZ_FILE_COMPLETE);
+          }
+          item.classList.add(ClassName.DZ_FILE_PROCESSING);
+        });
+        dropzone.on(Events.REMOVED_FILE, function (file) {
+          if (item.querySelector(Selector.DZ_PREVIEW_COVER)) {
+            item.querySelector(Selector.DZ_PREVIEW_COVER).classList.remove(ClassName.DZ_PROCESSING);
+          }
+          item.classList.add(ClassName.DZ_FILE_COMPLETE);
+          removedFiles.push(file.name);
+
+          $('#to-remove').val(JSON.stringify(removedFiles));
+        });
+        dropzone.on(Events.COMPLETE, function () {
+          if (item.querySelector(Selector.DZ_PREVIEW_COVER)) {
+            item.querySelector(Selector.DZ_PREVIEW_COVER).classList.remove(ClassName.DZ_PROCESSING);
+          }
+          item.classList.add(ClassName.DZ_FILE_COMPLETE);
+        });
+        dropzone.on("sendingmultiple", function(file, xhr, formData) {
+            console.log(formData)
+            var data = $('#form-sub').serializeArray();
+            $.each(data, function(key, el) {
+                formData.append(el.name, el.value);
+            });
+            // Add other form data fields here
+        });
+
+      });
+    };
+
+    dropzoneInit();
+
+</script>
+{%endblock%}

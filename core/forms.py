@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
+import json
 from .models import Location, Item, ItemImage, UserProfile
 from .text_filter import search_items
 
@@ -154,7 +155,7 @@ class MultipleFileField(forms.FileField):
 
 class ItemForm(forms.ModelForm):
     # Fields for the Location model
-    location_name = forms.CharField(
+    location = forms.CharField(
         max_length=255, label="Location Name",
         widget=forms.TextInput(attrs={'class': 'form-control',
                                       'placeholder': 'Enter the location where the item was lost or found'})
@@ -163,7 +164,7 @@ class ItemForm(forms.ModelForm):
     # Field for multiple file uploads
     images = MultipleFileField(
         required=False,
-        widget=MultipleFileInput(attrs={'class': 'form-control'})
+        widget=MultipleFileInput(attrs={'class': 'form-control d-none', 'id': 'hidden-file-input'})
     )
     email = forms.EmailField(
         label="Your Email", required=True,
@@ -182,9 +183,15 @@ class ItemForm(forms.ModelForm):
         widget=JsonWidget(attrs={'class': 'form-control', "placeholder": "Add answer..."})
     )
 
+    removed = forms.CharField(
+        widget=forms.HiddenInput(attrs= {'id': 'to-remove', 'value': '[]'}),
+        required=False
+    )
+
     class Meta:
         model = Item
-        fields = ['name', 'description', 'status', 'location_name', 'images', 'email', 'phone', 'questions', 'answers']
+        fields = ['name', 'description', 'status', 'location', 'images', 'email', 'phone', 'questions', 'answers',
+                  'removed']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter item name'}),
             'description': forms.Textarea(attrs={
@@ -208,9 +215,9 @@ class ItemForm(forms.ModelForm):
         item = super().save(commit=False)
 
         # Handle location
-        location_name = self.cleaned_data.get('location_name')
-        location, _ = Location.objects.get_or_create(name=location_name)
-        item.location = location
+        # location_name = self.cleaned_data.get('location_name')
+        # location, _ = Location.objects.get_or_create(name=location_name)
+        # item.location = location
         item.reported_by = self.user
         item.contact_phone = self.cleaned_data.get('phone')
         item.contact_email = self.cleaned_data.get('email')
@@ -220,12 +227,19 @@ class ItemForm(forms.ModelForm):
 
             # Handle multiple images
             images = self.files.getlist('images')  # Retrieve the list of uploaded images
-            for image_file in images:
-                ItemImage.objects.create(item=item, image=image_file)
-
-            if item.status == 'lost':
-                item.relatives.set(search_items(item))
-                item.save()
+            remove = self.cleaned_data.get('removed')  # Retrieve the list of uploaded images
+            print('to remove')
+            for x in ItemImage.objects.filter(image__in=json.loads(remove)):
+                x.delete()
+            for image in images:
+                ItemImage.objects.create(image=image, item=item)
+            print(images, remove)
+            # for image_file in images:
+            #     ItemImage.objects.create(item=item, image=image_file)
+            #
+            # if item.status == 'lost':
+            #     item.relatives.set(search_items(item))
+            #     item.save()
 
         return item
 

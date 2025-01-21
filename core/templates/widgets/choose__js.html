@@ -2,7 +2,7 @@
     type="text"
     name="{{ widget.name }}"
     id="{{ widget.attrs.id }}"
-    value="{{ widget.value }}"
+    value="{{ widget.value|default:'' }}"
     class="{{ widget.attrs.class }}"
     placeholder="{{ widget.attrs.placeholder|default:'Add items...' }}"
 >

@@ -87,15 +87,15 @@
 
         <!-- Related Items Section -->
         <div class="related-items mt-5">
-          {% if item.status == 'found' %}
+          {% if not item.status == 'found' %}
             <p class="text-center mb-4">
               Thank you for reporting this item we will notify you once the owner is ready to claim it.
             </p>
           {% else %}
             <h4 class="text-center mb-4">Related Items</h4>
-            {% if item.relatives.exists %}
+            {% if relatives.exists %}
               <div class="row">
-                {% for r in item.relatives.all %}
+                {% for r in relatives.all %}
                   <div class="col-md-3">
                   <a href="{% url 'item_details' r.id %}" class="card h-100">
                     <img src="{{r.image.all.0.image.url}}" class="card-img-top" alt="Related Item 1" style="aspect-ratio: 1;">

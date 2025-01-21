@@ -1,6 +1,7 @@
 from django.db.models import Q, Count
 from .models import Item
 import requests
+from django.core.serializers import serialize
 
 stop_words = set("""a an and are as at be by for from has he in is it its of on that the to was were will with about 
 above after again against all am any are because before below between both but by cannot could did do does doing down 
@@ -9,7 +10,7 @@ on once only or other over own same should so some such than that the their thei
 they this those through too under until very was what when where which while who whom why will with you your yours 
 yourself yourselves""".split())
 
-nlp_domain = 'https://findr.pythonanywhere.com/'
+nlp_domain = 'https://findr.pythonanywhere.com'
 
 
 def search_items(item):
@@ -33,9 +34,10 @@ def search_items(item):
     return results
 
 
-def extract_object_keywords(text):
+def extract_object_keywords(item, query_set):
     response = requests.post(f'{nlp_domain}/keywords', json={
-        "sentence": text,
+        "item": serialize('json', [item]),
+        "query_set": serialize('json', query_set)
     })
 
     return response.json()

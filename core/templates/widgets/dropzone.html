@@ -1,0 +1,28 @@
+
+
+<div class="dropzone dropzone-multiple p-0" id="my-awesome-dropzone" data-dropzone="data-dropzone">
+  <div class="fallback"><input name="images" type="file" multiple="multiple" /></div>
+  <div class="dz-message" data-dz-message="data-dz-message"> <img class="me-2" src="../../../assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop your files here</div>
+  <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column">
+    <div class="d-flex media mb-3 pb-3 border-bottom btn-reveal-trigger ">
+        <img class="dz-image" src="../../../assets/img/generic/image-file-2.png" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
+      <div class="flex-1 d-flex justify-content-between flex-grow-1">
+        <div>
+          <h6 data-dz-name="data-dz-name"></h6>
+          <div class="d-flex align-items-center">
+            <p class="mb-0 fs--1 text-400 lh-1" data-dz-size="data-dz-size"></p>
+            <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
+          </div><span class="fs--2 text-danger" data-dz-errormessage="data-dz-errormessage"></span>
+        </div>
+        <div class="dropdown font-sans-serif">
+            <button id="profile-dropdown" class="btn btn-sm btn-light" data-toggle="dropdown"><i class="mdi mdi-dots-horizontal"></i></button>
+            <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
+              aria-labelledby="profile-dropdown">
+                <a class="dropdown-item preview-item" href="#!" data-dz-remove="data-dz-remove">
+                    <span class="preview-item-content">Remove File</span></a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

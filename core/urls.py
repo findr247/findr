@@ -10,6 +10,7 @@ urlpatterns = [
     path('report/<int:item_id>', views.report_item, name='report_id'),
     path('claim/<int:item_id>', views.claim_item, name='claim'),
     path('download-backup/', views.download_db_and_media, name='download_backup'),
+    path('items', views.items, name='items'),
     path('items/<int:item_id>', views.item_details, name='item_details'),
     path('new/', views.new),
     path('events/', views.cse_view)

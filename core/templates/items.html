@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="page-title light-background">
+        <div class="container">
+            <h1>All Found Items</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="current">Found Items</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <section id="found-items" class="section">
+            <div class="container">
+                <!-- Filter Section -->
+                <div class="mt-4">
+                    <div class="filter-box p-4" style="background-color: #f8f9fa; border-radius: 8px;">
+                        <h4>Filter Items</h4>
+                        <form id="filterForm" class="row g-3">
+                            <div class="col-md-3">
+                                <label for="itemType" class="form-label">Item Type</label>
+                                <select id="itemType" class="form-select">
+                                    <option selected>All</option>
+                                    <option>Wallet</option>
+                                    <option>Bag</option>
+                                    <option>Electronics</option>
+                                    <option>Jewelry</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="location" class="form-label">Found Location</label>
+                                <input type="text" id="location" class="form-control" placeholder="e.g., Central Park">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="dateFound" class="form-label">Date Found</label>
+                                <input type="date" id="dateFound" class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="sortOrder" class="form-label">Sort By</label>
+                                <select id="sortOrder" class="form-select">
+                                    <option value="recent">Most Recent</option>
+                                    <option value="oldest">Oldest</option>
+                                    <option value="location">Location</option>
+                                </select>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-primary"
+                                    style="background: #7404FA; border: none;">Apply
+                                    Filters</button>
+                                <button type="reset" class="btn btn-secondary">Clear Filters</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Found Items Section -->
+                <section id="found-items" class="found-items section">
+                    <div class="row">
+                        {% for item in items %}
+                        <div class="col-md-4 pl-2 py-2">
+                            <a href="{% url 'item_details' item.id %}">
+                                <div class="card">
+                                    {% if item.image.all.0.image %}
+                                        <img src="{{item.image.all.0.image.url}}" class="card-img-top" alt="Item Image" style="aspect-ratio: 1;">
+                                    {% else %}
+                                    <img src="https://images.unsplash.com/photo-1676276550341-00e94a953058?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                        class="card-img-top" alt="Item Image" style="aspect-ratio: 1;">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{item.name}}</h5>
+                                        <p class="card-text">{{item.description}}</p>
+                                        <a href="{% url 'claim' item.id %}" class="btn btn-success me-2 px-5" style="background-color: #7404FA; width: 100%;">Claim Item</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section><!-- /Found Items Section -->
+            </div>
+        </section>
+
+{% endblock %}

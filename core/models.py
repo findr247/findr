@@ -52,3 +52,16 @@ class ItemImage(models.Model):
 
     def features_data(self):
         return np.array(self.features)
+
+
+class ClaimItem(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='claim')
+    claimed_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='item_claimed')
+    contact = models.CharField(max_length=50)
+    answers = models.JSONField(default=list, blank=True)
+
+
+class ItemProof(models.Model):
+    claim = models.ForeignKey(ClaimItem, on_delete=models.CASCADE, related_name='image_proof')
+    image = models.ImageField(upload_to='proof_images/')
+

@@ -164,7 +164,7 @@ class ItemForm(forms.ModelForm):
     # Field for multiple file uploads
     images = MultipleFileField(
         required=False,
-        widget=MultipleFileInput(attrs={'class': 'form-control d-none', 'id': 'hidden-file-input'})
+        widget=MultipleFileInput(attrs={'class': 'd-none', 'id': 'hidden-file-input'})
     )
     email = forms.EmailField(
         label="Your Email", required=True,

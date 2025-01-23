@@ -2,10 +2,12 @@ import numpy as np
 from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+
+import json
 from io import BytesIO
 
 from .background_runer import perform_task
-from .models import ItemImage, Item, Location, User
+from .models import ItemImage, Item, Location, User, ClaimItem, ItemProof
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, ItemForm, SignInForm
@@ -76,7 +78,19 @@ def report_item(request, item_id=None):
 
 @login_required
 def claim_item(request, item_id):
-    item = Item.objects.get(id=item_id)
+    item = get_object_or_404(Item, id=item_id)
+
+    if request.method == 'POST':
+        data = request.POST
+        answers = [data.get(f'Q{i+1}') for i in range(len(item.questions))]
+        claim = ClaimItem.objects.create(item=item, contact=data.get('contactInfo'),
+                                         claimed_by=request.user, answers=answers)
+
+        for x in ItemProof.objects.filter(image__in=json.loads(data.get('removed'))):
+            x.delete()
+        for image in request.FILES.getlist('images'):
+            ItemProof.objects.create(image=image, claim=claim)
+
     return render(request, 'claim.html', {'item': item})
 
 
@@ -167,3 +181,8 @@ def item_details(request, item_id):
 def cse_view(request):
 
     return JsonResponse({}, status=200)
+
+
+def items(request):
+    items_list = Item.objects.filter(status="found")
+    return render(request, 'items.html', {'items': items_list})

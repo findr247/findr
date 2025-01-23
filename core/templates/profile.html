@@ -62,6 +62,14 @@
                                             <p>Found at: {{item.item.location}}</p>
                                         </div>
                                     </div>
+                                {% empty %}
+                                    <div class="item-card mb-3 p-3 d-flex align-items-center flex-column justify-content-center"
+                                         style="background: #f8f9fa; border-radius: 8px; height: 400px">
+                                        <i class="bi bi-info-circle" style="font-size: 4rem; color: #7404FA;"></i>
+                                        <h5> You haven't claimed any founded item yet.</h5>
+                                        <a href="{% url 'items' %}" class="btn btn-primary me-0 me-sm-2 mx-1"
+                                            style="padding-left: 14px; padding-right: 14px;">Claim Found Item</a>
+                                    </div>
                                 {% endfor %}
                             </div>
                             <!-- Reported Found Items -->
@@ -77,6 +85,15 @@
                                             <p>Found at: {{item.location}}</p>
                                         </div>
                                     </div>
+                                {% empty %}
+                                    <div class="item-card mb-3 p-3 d-flex align-items-center flex-column justify-content-center"
+                                         style="background: #f8f9fa; border-radius: 8px; height: 400px">
+                                        <i class="bi bi-info-circle" style="font-size: 4rem; color: #7404FA;"></i>
+                                        <h5> You haven't reported any founded item yet.</h5>
+                                        <a href="{% url 'report' %}" class="btn btn-primary me-0 me-sm-2 mx-1"
+                                          style="padding-left: 14px; padding-right: 14px;">Report founded
+                                          Item</a>
+                                    </div>
                                 {% endfor %}
                             </div>
                             <!-- Reported Missing Items -->
@@ -91,6 +108,15 @@
                                             <p>Reported on: {{item.date_reported|date:"F d, Y"}}</p>
                                             <p>Found at: {{item.location}}</p>
                                         </div>
+                                    </div>
+                                {% empty %}
+                                    <div class="item-card mb-3 p-3 d-flex align-items-center flex-column justify-content-center"
+                                         style="background: #f8f9fa; border-radius: 8px; height: 400px">
+                                        <i class="bi bi-info-circle" style="font-size: 4rem; color: #7404FA;"></i>
+                                        <h5> You haven't reported any missing item yet.</h5>
+                                        <a href="{% url 'report' %}" class="btn btn-primary me-0 me-sm-2 mx-1"
+                                          style="padding-left: 14px; padding-right: 14px;">Report Lost
+                                          Item</a>
                                     </div>
                                 {% endfor %}
                             </div>

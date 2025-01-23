@@ -20,6 +20,7 @@
   <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
   <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
   <link href="{% static 'assets/vendor/choices/choices.min.css' %}" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
@@ -42,11 +43,14 @@
           <li><a href="/" class="active">Home</a></li>
           <li><a href="/#features">Features</a></li>
           <li><a href="/#services">Services</a></li>
+          {% if request.user %}<li><a href="index.html#services-cards">Logout</a></li>{% endif %}
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-      <div>
-
+      <div style="display: flex; align-items: center;">
+        <a class="hide-on-small-only" href="{% url 'profile' %}">
+          <i class='bx bx-user-circle' style="font-size: 34px;"></i>
+        </a>
         <a class="btn-getstarted hide-on-small-only" href="{% url 'report' %}">Report Lost Item</a>
         <a class="btn-getstarted hide-on-small-only" href="{% url 'items' %}">Claim Found Item</a>
       </div>

@@ -6,6 +6,7 @@ urlpatterns = [
     # path('upload', views.upload, name='upload'),
     path('signup/', views.signup_view, name='signup'),
     path('signin/', views.signin_view, name='signin'),
+    path('profile/', views.profile, name="profile"),
     path('report/', views.report_item, name='report'),
     path('report/<int:item_id>', views.report_item, name='report_id'),
     path('claim/<int:item_id>', views.claim_item, name='claim'),

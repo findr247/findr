@@ -186,3 +186,11 @@ def cse_view(request):
 def items(request):
     items_list = Item.objects.filter(status="found")
     return render(request, 'items.html', {'items': items_list})
+
+
+def profile(request):
+    lost = request.user.reported_items.filter(status='lost')
+    found = request.user.reported_items.filter(status='found')
+    claim = request.user.item_claimed.all()
+    print(lost)
+    return render(request, 'profile.html', {'lost': lost, 'found': found, 'claim': claim})

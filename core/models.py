@@ -57,6 +57,7 @@ class ItemImage(models.Model):
 class ClaimItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='claim')
     claimed_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='item_claimed')
+    claimed_on = models.DateTimeField(auto_now_add=True)
     contact = models.CharField(max_length=50)
     answers = models.JSONField(default=list, blank=True)
 

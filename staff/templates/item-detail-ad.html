@@ -1,0 +1,161 @@
+{% extends 'dashboard.html' %}
+
+{% block style %}
+<style>
+    /* Reset and General Styles */
+    /* Item Details Section */
+    .item-details {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        gap: 30px;
+    }
+
+    .item-details img {
+        width: 250px;
+        height: 250px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+
+    .item-info {
+        flex: 1;
+    }
+
+    .item-name {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .item-description {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .item-status {
+        font-size: 1rem;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .reported-by,
+    .date-reported,
+    .contact-info,
+    .location,
+    .category {
+        font-size: 0.9rem;
+        color: #888;
+        margin-bottom: 12px;
+    }
+
+    .reported-by strong,
+    .date-reported strong,
+    .contact-info strong,
+    .location strong,
+    .category strong {
+        color: #444;
+    }
+
+    /* Images Gallery */
+    .item-gallery {
+        margin-top: 20px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .item-gallery img {
+        width: 150px;
+        height: 150px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    /* Action Buttons */
+    .actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .action-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .action-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .claim-btn {
+        background-color: #28a745;
+    }
+
+    .claim-btn:hover {
+        background-color: #218838;
+    }
+
+    .delete-btn {
+        background-color: #dc3545;
+    }
+
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2 class="main-title">Item Details</h2>
+
+        <section class="item-details">
+            <!-- Main Image -->
+            <div class="item-image">
+                <img src="{% if item.image.all.0.image %}{{item.image.all.0.image.url}}{% endif %}"
+                    alt="Item Image">
+            </div>
+
+            <!-- Item Info -->
+            <div class="item-info">
+                <h2 class="item-name">{{item.name}}</h2>
+                <p class="item-description">{{item.description}}</p>
+
+                <!-- Item Status -->
+                <p class="item-status">Status: <strong>{{ item.status }}</strong></p>
+
+                <p class="reported-by">Reported By: <strong>{{item.reported_by.first_name}} {{item.reported_by.last_name}}</strong></p>
+                <p class="date-reported">Date Reported: <strong>{{item.date_reported|date:"F d, Y"}}</strong></p>
+                <p class="contact-info">Contact Info: <strong>{{item.contact_email}} ({{item.contact_phone}})</strong></p>
+                <p class="location">Location: <strong>{{item.location}}</strong></p>
+
+                <!-- Item Gallery -->
+                <div class="item-gallery">
+                    {% for x in item.image.all %}
+                        {% if not forloop.first %}
+                            <img src="{{x.image.url}}" alt="{{x.image}}">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="actions">
+                    <button class="action-btn claim-btn">Mark as Claimed</button>
+                    <button class="action-btn delete-btn">Delete</button>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'dashboard.html' %}
+{% block style %}
+<style>
+    .empty-message {
+        text-align: center;
+        color: #666;
+        margin-top: 20px;
+    }
+
+    .empty-message p {
+        font-size: 1.2em;
+        margin: 10px 0;
+    }
+
+    .empty-message a {
+        display: inline-block;
+        text-decoration: none;
+        color: #007bff;
+        font-size: 1em;
+        padding: 10px 20px;
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .empty-message a:hover {
+        background: #007bff;
+        color: #ffffff;
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2 class="main-title">{{all}}Items {{status}}</h2>
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="users-table table-wrapper">
+                    {% if items %}
+                    <table class="posts-table">
+                        <thead>
+                            <tr class="users-table-info">
+                                <th>
+                                    <label class="users-table__checkbox ms-20">
+                                        <input type="checkbox" class="check-all">Image
+                                    </label>
+                                </th>
+                                <th>Item Name</th>
+                                <th>Description</th>
+                                <th>Reported By</th>
+                                {% if not status %}<th>Status</th>{% endif %}
+                                <th>Date Reported</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                  <td>
+                                    <label class="users-table__checkbox">
+                                      <input type="checkbox" class="check">
+                                      <div class="categories-table-img">
+                                        <picture>
+                                          <source
+                                            srcset="{% if item.image.all.0.image %}{{item.image.all.0.image.url}}{% endif %}"
+                                            type="image/webp">
+                                          <img
+                                            src="{% if item.image.all.0.image %}{{item.image.all.0.image.url}}{% endif %}"
+                                            alt="Lost Item">
+                                        </picture>
+                                      </div>
+                                    </label>
+                                  </td>
+                                  <td>{{item.name}}</td>
+                                  <td>{{item.description}}</td>
+                                  <td>
+                                    <div class="pages-table-img">
+
+                                      {{item.reported_by.first_name}} {{item.reported_by.last_name}}
+                                    </div>
+                                  </td>
+                                  {% if not status %}<td><span class="{% if item.status == 'lost'  %}badge-pending{% else %}badge-active{% endif %}">{{item.status}}</span></td>{% endif %}
+                                  <td>{{item.date_reported|date:'Y-m-d'}}</td>
+                                  <td>
+                                    <span class="p-relative">
+                                      <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                                        <div class="sr-only">More info</div>
+                                        <i data-feather="more-horizontal" aria-hidden="true"></i>
+                                      </button>
+                                      <ul class="users-item-dropdown dropdown">
+                                        <li><a href="{% url 'item_details' item.id %}">View Details</a></li>
+                                        <li><a href="##">Mark as Found</a></li>
+                                        <li><a href="##">Delete</a></li>
+                                      </ul>
+                                    </span>
+                                  </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                         <div class="empty-message">
+                            <p>No items found.</p>
+                            <a href="{% url 'dashboard' %}">Go back to the Dashboard</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

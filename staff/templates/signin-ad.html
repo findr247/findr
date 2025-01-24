@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Findr Dashboard | Sign In</title>
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{% static 'admin/img/svg/logo.svg' %}" type="image/x-icon">
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="{% static 'admin/css/style.min.css' %}">
+  <style>
+    .alert-danger{
+      position: relative;
+      padding: 1rem 1rem;
+      margin-bottom: 1rem;
+      color: #58151c;
+      background-color: #f8d7da;
+      border:  1px solid #f1aeb5;
+      border-radius: 0.375rem;
+      max-width: 300px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layer"></div>
+  <main class="page-center">
+    <article class="sign-up">
+      <h1 class="sign-up__title">Welcome back!</h1>
+      <p class="sign-up__subtitle">Sign in to continue</p>
+      <form class="sign-up-form form" action="" method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <label class="form-label-wrapper">
+          <p class="form-label">Username</p>
+          <input class="form-input" type="text" name="username" placeholder="Enter your username" required>
+        </label>
+        <label class="form-label-wrapper">
+          <p class="form-label">Password</p>
+          <input class="form-input" type="password" name="password" placeholder="Enter your password" required>
+        </label>
+        <br>
+        <button class="form-btn primary-default-btn transparent-btn">Sign in</button>
+      </form>
+    </article>
+  </main>
+  <!-- Chart library -->
+  <script src="{% static 'admin/plugins/chart.min.js' %}"></script>
+  <!-- Icons library -->
+  <script src="{% static 'admin/plugins/feather.min.js' %}"></script>
+  <!-- Custom scripts -->
+  <script src="{% static 'admin/js/script.js' %}"></script>
+</body>
+
+</html>

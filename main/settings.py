@@ -99,6 +99,19 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 SUPABASE_BUCKET_NAME = "findr"
 
 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'finduil247@gmail.com'
+EMAIL_HOST_PASSWORD = 'your_password_or_app_specific_password'
+
+# Optional settings
+DEFAULT_FROM_EMAIL = 'Findr <finduil247@gmail.com>'
+EMAIL_USE_SSL = False  # Set to True if your SMTP server uses SSL (e.g., port 465)
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

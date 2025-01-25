@@ -188,6 +188,7 @@ def items(request):
     return render(request, 'items.html', {'items': items_list})
 
 
+@login_required
 def profile(request):
     lost = request.user.reported_items.filter(status='lost')
     found = request.user.reported_items.filter(status='found')

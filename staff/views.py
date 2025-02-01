@@ -56,8 +56,18 @@ def item_details(request, item_id):
 def items_list(request):
     status = request.GET.get('status', None)
     if status:
-        items = Item.objects.filter(status=status)
+        items = Item.objects.filter(status=status) if not status == 'claimed' else ClaimItem.objects.all()
         return render(request, 'items-ad.html', {'items': items, 'status': status})
     else:
         items = Item.objects.all()
         return render(request, 'items-ad.html', {'items': items, 'all': 'All '})
+
+
+def item_claimed(request, claim_id):
+    item = ClaimItem.objects.get(id=claim_id)
+    return render(request, 'claimed.html', {'item': item})
+
+
+def users(request):
+    Users_list = User.objects.all()
+    return render(request, 'user-ad.html', {'users': Users_list})

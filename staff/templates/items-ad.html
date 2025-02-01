@@ -47,13 +47,58 @@
                                 </th>
                                 <th>Item Name</th>
                                 <th>Description</th>
-                                <th>Reported By</th>
+                                <th>{% if status == 'claimed' %}Claimed{%else%}Reported{%endif%} By</th>
                                 {% if not status %}<th>Status</th>{% endif %}
+                                {% if status == 'claimed' %}<th>Status</th>{% endif %}
                                 <th>Date Reported</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% if status == 'claimed' %}
+                            {% for item in items %}
+                                <tr>
+                                  <td>
+                                    <label class="users-table__checkbox">
+                                      <input type="checkbox" class="check">
+                                      <div class="categories-table-img">
+                                        <picture>
+                                          <source
+                                            srcset="{% if item.item.image.all.0.image %}{{item.item.image.all.0.image.url}}{% endif %}"
+                                            type="image/webp">
+                                          <img
+                                            src="{% if item.item.image.all.0.image %}{{item.item.image.all.0.image.url}}{% endif %}"
+                                            alt="Lost Item">
+                                        </picture>
+                                      </div>
+                                    </label>
+                                  </td>
+                                  <td>{{item.item.name}}</td>
+                                  <td>{{item.item.description}}</td>
+                                  <td>
+                                    <div class="pages-table-img">
+
+                                      {{item.claimed_by.first_name}} {{item.claimed_by.last_name}}
+                                    </div>
+                                  </td>
+                                  <td><span class="{% if item.item.status != 'returned'  %}badge-pending{% else %}badge-active{% endif %}">
+                                      {% if item.item.status == 'returned'  %}returned{% else %}unverified{% endif %}</span></td>
+                                  <td>{{item.item.date_reported|date:'Y-m-d'}}</td>
+                                  <td>
+                                    <span class="p-relative">
+                                      <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                                        <div class="sr-only">More info</div>
+                                        <i data-feather="more-horizontal" aria-hidden="true"></i>
+                                      </button>
+                                      <ul class="users-item-dropdown dropdown">
+                                        <li><a href="{% url 'claim_details' item.id %}">View Details</a></li>
+                                        <li><a href="##">Delete</a></li>
+                                      </ul>
+                                    </span>
+                                  </td>
+                                </tr>
+                            {% endfor %}
+                            {% else %}
                             {% for item in items %}
                                 <tr>
                                   <td>
@@ -96,6 +141,7 @@
                                   </td>
                                 </tr>
                             {% endfor %}
+                            {% endif %}
                         </tbody>
                     </table>
                     {% else %}

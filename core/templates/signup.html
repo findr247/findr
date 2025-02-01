@@ -41,6 +41,17 @@
 <!--                            placeholder="Enter your username" required>-->
                     </div>
 
+                    <!-- fullname -->
+                    <div class="mb-3">
+                        <label for="id_fullname" class="form-label">Fullname</label>
+                        {{ form.fullname }}
+                        {% if form.fullname.errors %}
+                            <div class="text-danger">{{form.fullname.errors}}</div>
+                        {% endif %}
+<!--                        <input type="text" class="form-control" id="username" name="username"-->
+<!--                            placeholder="Enter your username" required>-->
+                    </div>
+
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="id_email" class="form-label">Email</label>

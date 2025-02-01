@@ -157,5 +157,92 @@
                 </div>
             </div>
         </section>
+
+<!--        <ul class="sidebar-body-menu">-->
+<!--            <li>-->
+<!--              <a class="show-cat-btn" href="##">-->
+<!--                <span class="icon document" aria-hidden="true"></span>Items-->
+<!--                <span class="category__btn transparent-btn" title="Open list">-->
+<!--                  <span class="sr-only">Open list</span>-->
+<!--                  <span class="icon arrow-down" aria-hidden="true"></span>-->
+<!--                </span>-->
+<!--              </a>-->
+<!--              <ul class="cat-sub-menu">-->
+<!--                <li>-->
+<!--                  <a href="/staff/items?status=lost">Items Lost</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                  <a href="/staff/items?status=found">Items Found</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                  <a href="/staff/items?status=claimed">Items Claimed</a>-->
+<!--                </li>-->
+<!--              </ul>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+        {% if item.claim.all %}
+        <table class="posts-table">
+            <thead>
+                <tr class="users-table-info">
+                    <th>
+                        <label class="users-table__checkbox ms-20">
+                            <input type="checkbox" class="check-all">Image
+                        </label>
+                    </th>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Claimed By</th>
+                    <th>Status</th>
+                    <th>Date Reported</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in item.claim.all %}
+                    <tr>
+                      <td>
+                        <label class="users-table__checkbox">
+                          <input type="checkbox" class="check">
+                          <div class="categories-table-img">
+                            <picture>
+                              <source
+                                srcset="{% if item.image.all.0.image %}{{item.item.image.all.0.image.url}}{% endif %}"
+                                type="image/webp">
+                              <img
+                                src="{% if item.image.all.0.image %}{{item.item.image.all.0.image.url}}{% endif %}"
+                                alt="Lost Item">
+                            </picture>
+                          </div>
+                        </label>
+                      </td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.description}}</td>
+                      <td>
+                        <div class="pages-table-img">
+
+                          {{item.claimed_by.first_name}} {{item.claimed_by.last_name}}
+                        </div>
+                      </td>
+                      <td><span class="{% if item.item.status != 'returned'  %}badge-pending{% else %}badge-active{% endif %}">
+                          {% if item.item.status == 'returned'  %}returned{% else %}unverified{% endif %}</span></td>
+                      <td>{{item.item.date_reported|date:'Y-m-d'}}</td>
+                      <td>
+                        <span class="p-relative">
+                          <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                            <div class="sr-only">More info</div>
+                            <i data-feather="more-horizontal" aria-hidden="true"></i>
+                          </button>
+                          <ul class="users-item-dropdown dropdown">
+                            <li><a href="{% url 'claim_details' item.id %}">View Details</a></li>
+                            <li><a href="##">Delete</a></li>
+                          </ul>
+                        </span>
+                      </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
     </div>
 {% endblock %}

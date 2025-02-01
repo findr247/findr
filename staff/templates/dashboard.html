@@ -78,7 +78,7 @@
           <span class="system-menu__title">system</span>
           <ul class="sidebar-body-menu">
             <li>
-              <a href="user.html"><span class="icon user-3" aria-hidden="true"></span>Users</a>
+              <a href="{% url 'users' %}"><span class="icon user-3" aria-hidden="true"></span>Users</a>
             </li>
             <li>
               <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>
@@ -182,11 +182,11 @@
                     <i data-feather="user" aria-hidden="true"></i>
                     <span>Profile</span>
                   </a></li>
-                <li><a href="##">
-                    <i data-feather="settings" aria-hidden="true"></i>
-                    <span>Account settings</span>
-                  </a></li>
-                <li><a class="danger" href="##">
+<!--                <li><a href="##">-->
+<!--                    <i data-feather="settings" aria-hidden="true"></i>-->
+<!--                    <span>Account settings</span>-->
+<!--                  </a></li>-->
+                <li><a class="danger" href="{% url 'logout' %}">
                     <i data-feather="log-out" aria-hidden="true"></i>
                     <span>Log out</span>
                   </a></li>

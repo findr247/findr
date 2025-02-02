@@ -53,6 +53,7 @@ def item_details(request, item_id):
     return render(request, 'item-detail-ad.html', {'item': item})
 
 
+@user_passes_test(admin_check, login_url='/staff/login/')
 def items_list(request):
     status = request.GET.get('status', None)
     if status:
@@ -61,11 +62,6 @@ def items_list(request):
     else:
         items = Item.objects.all()
         return render(request, 'items-ad.html', {'items': items, 'all': 'All '})
-
-
-def item_claimed(request, claim_id):
-    item = ClaimItem.objects.get(id=claim_id)
-    return render(request, 'claimed.html', {'item': item})
 
 
 def users(request):

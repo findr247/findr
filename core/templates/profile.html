@@ -59,7 +59,18 @@
                                         <div>
                                             <h5>{{item.item.name}}</h5>
                                             <p>Claimed on: {{item.claimed_on|date:"F d, Y"}}</p>
-                                            <p>Found at: {{item.item.location}}</p>
+                                            <p> Status: <span class="badge {% if item.status == 'returned' %}badge-subtle-primary{% else %}badge-subtle-warning{% endif %}">
+                                                {% if item.status == 'returned' %}returned{% elif item.claimed_by %}Verified{% else %}Unverified{% endif %}
+                                                </span>
+                                                <br/>
+                                                {% if not item.status == 'returned' and item.claimed_by %}
+                                                    <small>your claim for this item has been verified. The contact details to the one in possession of it is below this text</small>
+                                                {% endif %}
+                                            </p>
+                                            {% if item.claimed_by == request.user %}
+                                            <p>contact Phone: {{item.item.contact_phone}}</p>
+                                            <p>contact Email: {{item.item.contact_email}}</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% empty %}

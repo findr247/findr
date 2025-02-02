@@ -1,7 +1,10 @@
 import numpy as np
 from django.core.cache import cache
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 import json
 from io import BytesIO
@@ -91,6 +94,24 @@ def claim_item(request, item_id):
         for image in request.FILES.getlist('images'):
             ItemProof.objects.create(image=image, claim=claim)
 
+        context = {
+            'item': claim.item,
+            'claim': claim,
+            'site_url': 'https://finduil.vercel.app'  # Change to your actual site URL
+        }
+        html_message = render_to_string('claim-email.html', context)
+        plain_message = strip_tags(html_message)
+        print(x.email for x in User.objects.filter(is_staff=True))
+        # Send email
+        send_mail(
+            subject="New Claim Verification Required",
+            message=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[x.email for x in User.objects.filter(is_staff=True)],
+            html_message=html_message,
+        )
+
+        return render(request, 'claim.html', {'item': item, 'success': True})
     return render(request, 'claim.html', {'item': item})
 
 

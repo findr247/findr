@@ -20,11 +20,11 @@
         <!-- Page Title -->
         <div class="page-title light-background">
             <div class="container">
-                <h1>Report Lost or Found Item</h1>
+                <h1>Claim Found Item</h1>
                 <nav class="breadcrumbs">
                     <ol>
                         <li><a href="index.html">Home</a></li>
-                        <li class="current">Report</li>
+                        <li class="current">Claim</li>
                     </ol>
                 </nav>
             </div>
@@ -32,7 +32,7 @@
 
         <!-- Service Details Section -->
         <section id="service-details" class="service-details section">
-
+            {% if not success %}
             <div class="container">
 
 
@@ -158,6 +158,17 @@
                 </form>
 
             </div>
+            {% else %}
+                <div class="container text-center mt-5">
+                    <div class="alert alert-success" role="alert">
+                        <h1 class="display-4">Claim Submitted Successfully!</h1>
+                        <p class="lead">Your claim has been received. Our team will review it, and you will receive a notification once your claim is verified.</p>
+                        <hr>
+                        <p>Thank you for using our lost and found system.</p>
+                        <a href="/" class="btn btn-primary">Return to Home</a>
+                    </div>
+                </div>
+            {% endif %}
 
         </section><!-- /Service Details Section -->
 {% endblock %}

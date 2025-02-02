@@ -51,7 +51,8 @@
           <li><a href="/" class="active">Home</a></li>
           <li><a href="/#features">Features</a></li>
           <li><a href="/#services">Services</a></li>
-          <li class="hide-on-med-and-up"><a href="profile.html">Profile}}</a></li>
+          <li><a href="{% url 'items_' %}">Items</a></li>
+          <li class="hide-on-med-and-up"><a href="profile.html">Profile</a></li>
           {% if request.user.is_authenticated %}<li><a href="{% url 'logout' %}">Logout</a></li>{% endif %}
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -326,7 +327,7 @@
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="display-4 mb-4">Find It Faster!</h2>
             <p class="mb-4">Lost or found something? Our tools make it easy to connect and resolve.</p>
-            <a href="#" class="btn btn-cta">Report Lost Item</a>
+            <a href="{% url 'report' %}" class="btn btn-cta">Report Lost Item</a>
           </div>
 
           <!-- Abstract Background Elements -->
@@ -464,7 +465,7 @@
               <h3>Would you like to recover your lost items or help someone find theirs?</h3>
               <p>The sooner you act, the sooner you can reconnect. Report your lost or found item now and be part of a
                 community that cares.</p>
-              <a class="cta-btn" href="#">Claim Found Item</a>
+              <a class="cta-btn" href="{% url 'items' %}">Claim Found Item</a>
             </div>
           </div>
         </div>

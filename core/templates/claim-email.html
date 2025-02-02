@@ -1,0 +1,47 @@
+{% autoescape off %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Claim Verification Needed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            color: #ffffff;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>New Claim Verification Required</h2>
+        <p>Hello Admin,</p>
+        <p>A new claim has been submitted for the item: <strong>{{ item.name }}</strong>.</p>
+        <p>Claimed by: <strong>{{ claim.claimed_by.first_name }} {{ claim.claimed_by.last_name }}</strong></p>
+        <p>Please verify the claim and approve or reject it accordingly.</p>
+        <p><a href="{{ site_url }}{% url 'item_details_ad' item.id %}?claim={{claim.id}}" class="btn">Verify Claim</a></p>
+        <p>Thank you!</p>
+    </div>
+</body>
+</html>
+
+{% endautoescape %}

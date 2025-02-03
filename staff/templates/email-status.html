@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Status Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #007bff;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .status {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .message {
+            font-size: 16px;
+            margin: 15px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            Claim Status Update
+        </div>
+
+        <p class="status">Hello {{ user_name }},</p>
+        <p class="message">
+            Your claim for the item **{{ item_name }}** has been <strong style="color: {{ status_color }};">{{ claim_status }}</strong>.
+        </p>
+
+        {% if claim_status == "approved" %}
+            <p class="message">Congratulations! Your claim has been approved. Please contact the finder with the following details.</p>
+            <p class="message">name: {{finder.first_name}} {{finder.last_name}}</p>
+            <a href="mailto:{{finder.email}}" class="message">Email: {{finder.email}}</a><br />
+            <a href="tel:{{finder.profile.phone_number}}" class="message">phone: {{finder.profile.phone_number}}</a>
+            <br/>
+            <a href="{{ claim_url }}" class="btn">View Claim Details</a>
+        {% elif claim_status == "rejected" %}
+            <p class="message">Unfortunately, your claim did not meet the ownership verification criteria.</p>
+        {% elif claim_status == "request" %}
+            <p class="message">We need more details to verify your claim. Please provide additional information.</p>
+            <a href="{{ claim_url }}" class="btn">Submit More Info</a>
+        {% endif %}
+
+        <div class="support">
+            Need help? Call our support team at:
+            <a href="tel:+1234567890">+1 (234) 567-890</a>
+        </div>
+
+        <div class="footer">
+            If you have any questions, contact our support team.
+            <br>© 2025 Lost & Found Service
+        </div>
+    </div>
+
+</body>
+</html>

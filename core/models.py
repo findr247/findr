@@ -60,6 +60,8 @@ class ClaimItem(models.Model):
     claimed_on = models.DateTimeField(auto_now_add=True)
     contact = models.CharField(max_length=50)
     answers = models.JSONField(default=list, blank=True)
+    is_rejected = models.BooleanField(default=False)
+    more_info = models.BooleanField(default=False)
 
 
 class ItemProof(models.Model):

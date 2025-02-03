@@ -51,13 +51,13 @@
               </a>
               <ul class="cat-sub-menu">
                 <li>
-                  <a href="{% url 'items' %}?status=lost">Items Lost</a>
+                  <a href="{% url 'items_ad' %}?status=lost">Items Lost</a>
                 </li>
                 <li>
-                  <a href="{% url 'items' %}?status=found">Items Found</a>
+                  <a href="{% url 'items_ad' %}?status=found">Items Found</a>
                 </li>
                 <li>
-                  <a href="{% url 'items' %}?status=claimed">Items Claimed</a>
+                  <a href="{% url 'items_ad' %}?status=claimed">Items Claimed</a>
                 </li>
               </ul>
             </li>
@@ -71,7 +71,7 @@
               </a>
               <ul class="cat-sub-menu">
                 <li>
-                  <a href="{% url 'items' %}">All categories</a>
+                  <a href="{% url 'items_ad' %}">All categories</a>
                 </li>
               </ul>
           </ul>
@@ -258,7 +258,7 @@
                   <i data-feather="archive" aria-hidden="true"></i>
                 </div>
                 <div class="stat-cards-info">
-                  <p class="stat-cards-info__num">15</p>
+                  <p class="stat-cards-info__num">{{stat.verify}}</p>
                   <p class="stat-cards-info__title">Items Pending Verification</p>
                   <p class="stat-cards-info__progress">
                     <span class="stat-cards-info__profit warning">

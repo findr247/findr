@@ -87,7 +87,7 @@
 
         <!-- Related Items Section -->
         <div class="related-items mt-5">
-          {% if not item.status == 'found' %}
+          {% if item.status == 'found' and request.user.username == item.reported_by.username %}
             <p class="text-center mb-4">
               Thank you for reporting this item we will notify you once the owner is ready to claim it.
             </p>

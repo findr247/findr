@@ -61,7 +61,7 @@
                     <div class="row">
                         {% for item in items %}
                         <div class="col-md-4 pl-2 py-2">
-                            <a href="{% url 'item_details_ad' item.id %}">
+                            <a href="{% url 'item_details' item.id %}">
                                 <div class="card">
                                     {% if item.image.all.0.image %}
                                         <img src="{{item.image.all.0.image.url}}" class="card-img-top" alt="Item Image" style="aspect-ratio: 1;">

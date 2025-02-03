@@ -115,6 +115,10 @@
     .delete-btn:hover {
         background-color: #c82333;
     }
+    input[type="submit"] {
+        cursor: pointer;
+    }
+
 </style>
 {% endblock %}
 {% block content %}
@@ -192,9 +196,9 @@
                     <button onclick="toggleClaim('claim{{x.id}}')" class="w-full text-left p-3 bg-gray-200 hover:bg-gray-300 font-semibold">
                         Claim by {{x.claimed_by.first_name}} {{x.claimed_by.last_name}} (Click to Expand)
                     </button>
-                    <div id="claim{{x.id}}" class="hidden p-4">
+                    <div id="claim{{x.id}}" class="hidden p-4" style="overflow: scroll">
                         <p class="font-bold">Ownership Verification:</p>
-                        <table class="w-full border-collapse border border-gray-300 mt-2">
+                        <table class="w-full border-collapse border border-gray-300 mt-2" style="min-width: 500px">
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th class="border px-4 py-2">Question</th>
@@ -220,11 +224,15 @@
                                 {%endfor%}
                             </div>
                         {% endif %}
-                        <div class="mt-4">
-                            <button class="bg-green-500 text-white px-3 py-1 rounded">Approve</button>
-                            <button class="bg-red-500 text-white px-3 py-1 rounded">Reject</button>
-                            <button class="bg-blue-500 text-white px-3 py-1 rounded">Request More Info</button>
-                        </div>
+                        <form class="mt-4" action="" method="post" style="min-width: 500px">
+                            {% csrf_token %}
+                            <input type="hidden" name="item_id" value="{{x.id}}">
+                            {% if not item.claimed_by %}
+                            <input type="submit" name="approved" class="bg-green-500 text-white px-3 py-1 rounded" value="Approve"/>
+                            <input type="submit" name="rejected" class="bg-red-500 text-white px-3 py-1 rounded" value="Reject" />
+                            <input type="submit" name="request" class="bg-blue-500 text-white px-3 py-1 rounded" value="Request More Info" />
+                            {% endif %}
+                        </form>
                     </div>
                 </div>
                 {% endfor %}

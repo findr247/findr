@@ -94,8 +94,8 @@ DATABASES = {
 
 DEFAULT_FILE_STORAGE = "main.storage.SupabaseStorage"
 
-SUPABASE_URL = "https://igtceetylvuargdwfbag.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndGNlZXR5bHZ1YXJnZHdmYmFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcxNDI4MjgsImV4cCI6MjA1MjcxODgyOH0.kiY-Ib47IblNiuGROVx_gXmIuPPdD2V9E4ghyW9Nts8"
+SUPABASE_URL = "https://tovjujdtclmtbobdqaea.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvdmp1amR0Y2xtdGJvYmRxYWVhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0ODYwNjA5NywiZXhwIjoyMDY0MTgyMDk3fQ.NXBA_Bncbz1XoQjlKeW0T4MompXHrq4KUbd2f8bOdLU"
 SUPABASE_BUCKET_NAME = "findr"
 
 

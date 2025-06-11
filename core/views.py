@@ -213,7 +213,7 @@ def items(request):
         'claimed': Item.objects.filter(status="found", claimed_by__isnull=False).count(),
         'total': ClaimItem.objects.all().count()
     }
-    return render(request, 'items.html', {'items': items_list})
+    return render(request, 'items.html', {'items': items_list, "stat": stat})
 
 
 @login_required

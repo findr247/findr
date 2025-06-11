@@ -206,6 +206,13 @@ def cse_view(request):
 
 def items(request):
     items_list = Item.objects.filter(status="found")
+    stat = {
+
+        'lost': Item.objects.filter(status="lost").count(),
+        'found': Item.objects.filter(status="found").count(),
+        'claimed': Item.objects.filter(status="found", claimed_by__isnull=False).count(),
+        'total': ClaimItem.objects.all().count()
+    }
     return render(request, 'items.html', {'items': items_list})
 
 
